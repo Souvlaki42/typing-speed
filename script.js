@@ -1,7 +1,13 @@
 const RANDOM_QUOTE_API_URL = "https://api.quotable.io/random";
 const quoteDisplayElement = document.querySelector("[data-quote-display]");
 const quoteInputElement = document.querySelector("[data-quote-input]");
-const timer = document.querySelector("[data-timer]");
+const timerElement = document.querySelector("[data-timer]");
+const quoteResultElement = document.querySelector("[data-quote-result]");
+const quoteBtnElement = document.querySelector("[data-quote-btn]");
+
+quoteBtnElement.addEventListener("click", () => {
+    renderNewQuote();
+});
 
 quoteInputElement.addEventListener("input", () => {
     const arrayQuote = quoteDisplayElement.querySelectorAll("span");
@@ -26,15 +32,18 @@ quoteInputElement.addEventListener("input", () => {
     correctCharacters = arrayQuoteArray.filter(item => item.classList.contains("correct")).length;
 
     if (arrayQuoteArray.length === arrayValue.length) {
-        const wpm = Math.floor(updateWPM(parseInt(timer.innerText), setNumWordsInText(quoteDisplayElement.innerText)));
+        stopTimer();
+        const wpm = Math.floor(updateWPM(parseInt(timerElement.innerText), setNumWordsInText(quoteDisplayElement.innerText)));
         const accuracy = getAccuracy(totalCharacters, correctCharacters);
-        alert(`Your typing speed is ${wpm} words per minute with an accuracy of ${accuracy}%!`);
-        renderNewQuote();
+        quoteResultElement.textContent = `You are ${accuracy}% accurate and your typing speed is ${wpm} wpm!`;
+        if (quoteResultElement.classList.contains("hidden")) quoteResultElement.classList.remove("hidden");
+        if (quoteBtnElement.classList.contains("hidden")) quoteBtnElement.classList.remove("hidden");
+        if (!quoteInputElement.classList.contains("hidden")) quoteInputElement.classList.add("hidden");
     } 
 });
 
 function getAccuracy(numberOfTotalCharacters, numberOfCorrectCharacters) {
-    return ( numberOfCorrectCharacters / numberOfTotalCharacters ) * 100;
+    return parseInt(( numberOfCorrectCharacters / numberOfTotalCharacters ) * 100);
 }
 
 function setNumWordsInText(text) {
@@ -56,6 +65,9 @@ function getRandomQuote() {
 }
 
 async function renderNewQuote() {
+    if (!quoteResultElement.classList.contains("hidden")) quoteResultElement.classList.add("hidden");
+    if (!quoteBtnElement.classList.contains("hidden")) quoteBtnElement.classList.add("hidden");
+    if (quoteInputElement.classList.contains("hidden")) quoteInputElement.classList.remove("hidden");
     const quote = await getRandomQuote();
     quoteDisplayElement.innerHTML = "";
     quote .split("").forEach(character => {
@@ -68,18 +80,23 @@ async function renderNewQuote() {
 }
 
 let startTime;
+let interval;
 
 function startTimer() {
-    timer.innerText = 0;
+    timerElement.innerText = 0;
     startTime = new Date();
-    setInterval(() => {
-       timer.innerText = getTimerTime();
+
+    interval = setInterval(() => {
+       timerElement.innerText = getTimerTime();
     }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(interval);
 }
 
 function getTimerTime() {
    return Math.floor((new Date() - startTime) / 1000);
 }
-
 
 renderNewQuote();
