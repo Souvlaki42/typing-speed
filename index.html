@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Speed</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/TggM4Wm/souvlaki42.png"/>
-</head>
-<body>
-    <div class="timer" data-timer></div>
-    <div class="container">
-        <div class="quote-display unselectable" data-quote-display></div>
-        <textarea class="quote-input" data-quote-input autofocus spellcheck="false"></textarea>
-        <p data-quote-result class="hidden quote-result"></p>
-        <button data-quote-btn class="hidden quote-btn">Next Quote</button>
-    </div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script type="module" defer src="/src/script.ts"></script>
+		<link rel="stylesheet" href="/src/style.css" />
+		<title>Typing Speed</title>
+	</head>
+	<body>
+		<div class="timer" data-timer></div>
+		<div class="container">
+			<div class="quote-display unselectable" data-quote-display></div>
+			<textarea
+				class="quote-input"
+				data-quote-input
+				autofocus
+				spellcheck="false"
+			></textarea>
+			<p data-quote-result class="hidden quote-result"></p>
+			<button data-quote-btn class="hidden quote-btn">Next Quote</button>
+		</div>
+	</body>
 </html>
+
